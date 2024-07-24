@@ -116,7 +116,7 @@ export default function DigiPinMap() {
   return (
     <div className="relative">
       <div ref={mapContainer} className="map-container rounded-lg overflow-hidden" style={{ height: '500px' }} />
-      <div className="absolute top-4 left-4 z-10 bg-white p-4 rounded-lg shadow-lg">
+      <div className="absolute top-4 left-4 z-10 bg-white p-4 rounded-lg shadow-lg w-full max-w-sm">
         <p className="text-gray-800 font-medium mb-4">Click on the map or use your location to find your DIGIPIN:</p>
         <form onSubmit={handleSearch} className="mb-2 flex">
           <input
@@ -132,17 +132,17 @@ export default function DigiPinMap() {
         </form>
         <button 
           onClick={handleGeolocation} 
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center mb-2"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center mb-2 w-52"
         >
           <MapPin size={20} className="mr-2" />
           Use My Location
         </button>
         <button 
           onClick={toggleMapStyle} 
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center mb-2"
+          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center mb-2 w-52"
         >
           <Layers size={20} className="mr-2" />
-          Toggle Satellite View
+          Satellite View
         </button>
         {digipin && (
           <div className="mt-2 p-2 rounded-lg">
