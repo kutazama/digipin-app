@@ -1,47 +1,82 @@
-# Astro Starter Kit: Minimal
+# DIGIPIN App
 
-```sh
-npm create astro@latest -- --template minimal
+## Description
+
+The DIGIPIN (Digital Postal Index Number) App is a web application that allows users to find the DIGIPIN for any location in India. This app uses Mapbox for map visualization and the DIGIPIN calculation algorithm provided by India Post.
+
+## Features
+
+- Interactive map powered by Mapbox
+- Search functionality for locations in India
+- Geolocation support to find user's current location
+- DIGIPIN calculation for any point on the map
+- Satellite view toggle
+- Copy-to-clipboard functionality for DIGIPIN
+
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- Node.js (v14 or later)
+- npm (v6 or later)
+- A Mapbox account and API token
+
+## Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/digipin-app.git
+   cd digipin-app
+   ```
+
+2. Install the dependencies:
+   ```
+   npm install
+   ```
+
+3. Create a `.env` file in the root directory and add your Mapbox token:
+   ```
+   PUBLIC_MAPBOX_TOKEN=your_mapbox_token_here
+   ```
+
+## Usage
+
+To run the app in development mode:
+
+```
+npm run dev
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+To build the app for production:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+npm run build
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Contributing
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Contributions to the DIGIPIN App are welcome. Please follow these steps:
 
-Any static assets, like images, can be placed in the `public/` directory.
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/AmazingFeature`)
+3. Make your changes
+4. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+5. Push to the branch (`git push origin feature/AmazingFeature`)
+6. Open a Pull Request
 
-## 🧞 Commands
+## License
 
-All commands are run from the root of the project, from a terminal:
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Acknowledgements
 
-## 👀 Want to learn more?
+- [India Post](https://www.indiapost.gov.in) for the DIGIPIN initiative
+- [Mapbox](https://www.mapbox.com/) for their mapping services
+- [Astro](https://astro.build/) for the web framework
+- [React](https://reactjs.org/) for the UI library
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Contact
+
+Project Link: [https://github.com/yourusername/digipin-app](https://github.com/yourusername/digipin-app)

@@ -5,10 +5,16 @@ import DigiPinMap from '../components/DigiPinMap';
 
 <Layout title="What's My DIGIPIN?">
 	<main class="container mx-auto px-4 py-8">
-		<h1 class="text-3xl font-bold mb-6 text-center">What's My DIGIPIN?</h1>
-		<DigiPinMap client:load />
-		<p class="mt-8 text-sm text-gray-600">
-			The Department of Posts is advancing an initiative to establish a standardized, geo-coded addressing system in India, ensuring simplified addressing solutions for citizen-centric delivery of public and private services. The Department had collaborated with IIT Hyderabad for developing a National Level Addressing Grid-based addressing system, named as Digital Postal Index Number (DIGIPIN). This system will act as a strong and robust pillar of Geospatial Governance, leading to enhancements in public service delivery, faster emergency response and a significant boost to logistics efficiency.
-		</p>
+		<h1 class="text-4xl font-bold text-indigo-600 mb-6">What's My DIGIPIN?</h1>
+		<div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+			<p class="text-lg mb-4">Click on the map or use your location to find your DIGIPIN:</p>
+			<DigiPinMap client:load />
+		</div>
+		<div class="bg-white rounded-lg shadow-lg p-6">
+			<p class="text-sm text-gray-600 mb-4">
+				DIGIPIN is a new addressing format developed by India Post in collaboration with IIT Hyderabad. 
+				<a href="https://www.indiapost.gov.in/vas/Pages/digipin.aspx" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">Learn more about DIGIPIN</a>
+			</p>
+		</div>
 	</main>
 </Layout>
