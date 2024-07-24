@@ -10,6 +10,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.11.3"
+    "@astrojs/react": "^3.6.0",
+    "astro": "^4.11.3",
+    "lucide-react": "^0.414.0",
+    "mapbox-gl": "^3.5.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }
