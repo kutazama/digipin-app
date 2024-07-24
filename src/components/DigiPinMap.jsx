@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { Copy, MapPin, Layers } from 'lucide-react';
+import { Copy, MapPin, Layers, Search } from 'lucide-react';
 import { Get_DIGIPIN } from '../utils/digipin';
 
 // Use the environment variable for the Mapbox token
@@ -21,6 +19,7 @@ export default function DigiPinMap() {
   const [digipin, setDigipin] = useState('');
   const [isSatelliteView, setIsSatelliteView] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     if (map.current) return;
@@ -29,18 +28,6 @@ export default function DigiPinMap() {
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [lng, lat],
       zoom: zoom
-    });
-
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-      countries: 'in'
-    });
-
-    map.current.addControl(geocoder);
-
-    geocoder.on('result', (e) => {
-      updateDigipin(e.result.center[0], e.result.center[1]);
     });
 
     map.current.on('load', () => {
@@ -69,8 +56,8 @@ export default function DigiPinMap() {
       .setLngLat([longitude, latitude])
       .setHTML(`
         <div class="font-sans">
-          <h3 class="font-bold text-lg mb-2">Your DIGIPIN:</h3>
-          <p class="text-xl">${calculatedDigipin}</p>
+          <h3 class="font-bold text-lg mb-2 text-gray-500">Your DIGIPIN:</h3>
+          <p class="text-xl text-gray-500">${calculatedDigipin}</p>
         </div>
       `)
       .addTo(map.current);
@@ -106,10 +93,43 @@ export default function DigiPinMap() {
     setIsSatelliteView(!isSatelliteView);
   };
 
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(searchQuery)}.json?access_token=${MAPBOX_TOKEN}&country=IN`;
+    
+    try {
+      const response = await fetch(endpoint);
+      const data = await response.json();
+      if (data.features && data.features.length > 0) {
+        const [long, lat] = data.features[0].center;
+        map.current.flyTo({ center: [long, lat], zoom: 14 });
+        updateDigipin(long, lat);
+      } else {
+        alert('Location not found. Please try a different search term.');
+      }
+    } catch (error) {
+      console.error('Error searching for location:', error);
+      alert('An error occurred while searching. Please try again.');
+    }
+  };
+
   return (
     <div className="relative">
       <div ref={mapContainer} className="map-container rounded-lg overflow-hidden" style={{ height: '500px' }} />
       <div className="absolute top-4 left-4 z-10 bg-white p-4 rounded-lg shadow-lg">
+        <p className="text-gray-800 font-medium mb-4">Click on the map or use your location to find your DIGIPIN:</p>
+        <form onSubmit={handleSearch} className="mb-2 flex">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search for a place in India"
+            className="flex-grow px-2 py-1 border rounded-l-lg"
+          />
+          <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded-r-lg">
+            <Search size={20} />
+          </button>
+        </form>
         <button 
           onClick={handleGeolocation} 
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center mb-2"
@@ -125,11 +145,11 @@ export default function DigiPinMap() {
           Toggle Satellite View
         </button>
         {digipin && (
-          <div className="mt-2 bg-gray-100 p-2 rounded-lg">
-            <span className="font-bold mr-2">DIGIPIN: {digipin}</span>
+          <div className="mt-2 p-2 rounded-lg">
+            <span className="font-bold mr-2 text-gray-500">DIGIPIN: {digipin}</span>
             <button 
               onClick={copyDigipin} 
-              className={`ml-2 p-1 rounded ${copySuccess ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
+              className={`ml-2 p-1 rounded ${copySuccess ? 'bg-green-500 text-white' : 'bg-gray-500 hover:bg-gray-300'}`}
               title="Copy DIGIPIN"
             >
               <Copy size={16} />
