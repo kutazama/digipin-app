@@ -72,3 +72,72 @@ export function Get_DIGIPIN(lat, lon) {
     } 
     return vDIGIPIN;
 }
+
+export function Get_LatLong(digipin) {
+    const L1 = [
+        ['0', '2', '0', '0'],
+        ['3', '4', '5', '6'],
+        ['G', '8', '7', 'M'],
+        ['J', '9', 'K', 'L']
+    ];
+
+    const L2 = [
+        ['J', 'G', '9', '8'],
+        ['K', '3', '2', '7'],
+        ['L', '4', '5', '6'],
+        ['M', 'P', 'W', 'X']
+    ];
+
+    let MinLat = 1.50; let MaxLat = 39.00; let MinLon = 63.50; let MaxLon = 99.00;
+    let LatDivBy = 4; let LonDivBy = 4;
+
+    digipin = digipin.replace(/-/g, '');
+
+    if (digipin.length !== 10) {
+        return 'Invalid DIGIPIN';
+    }
+
+    for (let Lvl = 1; Lvl <= 10; Lvl++) {
+        let char = digipin[Lvl - 1];
+        let row, col;
+
+        if (Lvl === 1) {
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (L1[i][j] === char) {
+                        row = i;
+                        col = j;
+                        break;
+                    }
+                }
+                if (row !== undefined) break;
+            }
+            if (row === undefined) return 'Invalid DIGIPIN';
+        } else {
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (L2[i][j] === char) {
+                        row = i;
+                        col = j;
+                        break;
+                    }
+                }
+                if (row !== undefined) break;
+            }
+            if (row === undefined) return 'Invalid DIGIPIN';
+        }
+
+        let LatDivDeg = (MaxLat - MinLat) / LatDivBy;
+        let LonDivDeg = (MaxLon - MinLon) / LonDivBy;
+
+        MaxLat = MaxLat - (row * LatDivDeg);
+        MinLat = MaxLat - LatDivDeg;
+        MinLon = MinLon + (col * LonDivDeg);
+        MaxLon = MinLon + LonDivDeg;
+    }
+
+    let lat = (MinLat + MaxLat) / 2;
+    let lon = (MinLon + MaxLon) / 2;
+
+    return { latitude: lat, longitude: lon };
+}
