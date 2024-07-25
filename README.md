@@ -1,17 +1,12 @@
 # DIGIPIN App
 
+## Demo
+
+Demo Link: [https://digipin.netlify.app](https://digipin.netlify.app)
+
 ## Description
 
 The DIGIPIN (Digital Postal Index Number) App is a web application that allows users to find the DIGIPIN for any location in India. This app uses Mapbox for map visualization and the DIGIPIN calculation algorithm provided by India Post.
-
-## Features
-
-- Interactive map powered by Mapbox
-- Search functionality for locations in India
-- Geolocation support to find user's current location
-- DIGIPIN calculation for any point on the map
-- Satellite view toggle
-- Copy-to-clipboard functionality for DIGIPIN
 
 ## Prerequisites
 
@@ -73,10 +68,4 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 ## Acknowledgements
 
 - [India Post](https://www.indiapost.gov.in) for the DIGIPIN initiative
-- [Mapbox](https://www.mapbox.com/) for their mapping services
-- [Astro](https://astro.build/) for the web framework
-- [React](https://reactjs.org/) for the UI library
 
-## Contact
-
-Project Link: [https://github.com/yourusername/digipin-app](https://github.com/yourusername/digipin-app)
