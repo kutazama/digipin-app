@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { Copy, MapPin, Layers, Search } from 'lucide-react';
+import { Copy, Crosshair, Search } from 'lucide-react';
 import { Get_DIGIPIN } from '../utils/digipin';
 
-// Use the environment variable for the Mapbox token
 const MAPBOX_TOKEN = import.meta.env.PUBLIC_MAPBOX_TOKEN;
-
-// Set the token for mapboxgl
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
 export default function DigiPinMap() {
@@ -17,7 +14,6 @@ export default function DigiPinMap() {
   const [lat, setLat] = useState(20.5937);
   const [zoom, setZoom] = useState(4);
   const [digipin, setDigipin] = useState('');
-  const [isSatelliteView, setIsSatelliteView] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -62,8 +58,8 @@ export default function DigiPinMap() {
       .setLngLat([longitude, latitude])
       .setHTML(`
         <div class="font-sans">
-          <h3 class="font-bold text-lg mb-2 text-gray-500">Your DIGIPIN:</h3>
-          <p class="text-xl text-gray-500">${calculatedDigipin}</p>
+          <h3 class="font-bold text-lg mb-2 text-gray-700">Your DIGIPIN:</h3>
+          <p class="text-xl text-gray-700">${calculatedDigipin}</p>
         </div>
       `)
       .addTo(map.current);
@@ -94,14 +90,6 @@ export default function DigiPinMap() {
     });
   };
 
-  const toggleMapStyle = () => {
-    const newStyle = isSatelliteView
-      ? 'mapbox://styles/mapbox/streets-v11'
-      : 'mapbox://styles/mapbox/satellite-streets-v11';
-    map.current.setStyle(newStyle);
-    setIsSatelliteView(!isSatelliteView);
-  };
-
   const handleSearch = async (e) => {
     e.preventDefault();
     const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(searchQuery)}.json?access_token=${MAPBOX_TOKEN}&country=IN`;
@@ -123,42 +111,35 @@ export default function DigiPinMap() {
   };
 
   return (
-    <div className="relative">
-      {/* Mobile view */}
-      <div className="absolute top-4 left-4 z-10 bg-white p-4 rounded-lg shadow-lg w-full max-w-sm block md:hidden">
+    <div className="flex flex-col h-screen">
+      <div className="p-4 bg-white">
         <p className="text-gray-800 font-medium mb-4">Click on the map or use your location to find your DIGIPIN:</p>
-        <form onSubmit={handleSearch} className="mb-2 flex text-gray-500">
+        <div className="flex mb-2">
+          <button
+            onClick={handleGeolocation}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded-l-lg"
+            title="Use My Location"
+          >
+            <Crosshair size={20} />
+          </button>
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search for a place in India"
-            className="flex-grow px-2 py-1 border rounded-l-lg text-gray-500"
+            className="flex-grow px-2 py-1 border text-gray-700"
           />
-          <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded-r-lg">
+          <button onClick={handleSearch} className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded-r-lg">
             <Search size={20} />
           </button>
-        </form>
-        <button
-          onClick={handleGeolocation}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center mb-2 w-full"
-        >
-          <MapPin size={20} className="mr-2" />
-          Use My Location
-        </button>
-        <button
-          onClick={toggleMapStyle}
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center mb-2 w-full"
-        >
-          <Layers size={20} className="mr-2" />
-          Satellite View
-        </button>
+
+        </div>
         {digipin && (
           <div className="mt-2 p-2 rounded-lg bg-gray-100">
-            <span className="font-bold mr-2 text-gray-500">DIGIPIN: {digipin}</span>
+            <span className="font-bold mr-2 text-gray-700">DIGIPIN: {digipin}</span>
             <button
               onClick={copyDigipin}
-              className={`ml-2 p-1 rounded ${copySuccess ? 'bg-green-500 text-white' : 'bg-gray-500 hover:bg-gray-300'}`}
+              className={`ml-2 p-1 rounded ${copySuccess ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
               title="Copy DIGIPIN"
             >
               <Copy size={16} />
@@ -167,51 +148,8 @@ export default function DigiPinMap() {
           </div>
         )}
       </div>
-
-      <div ref={mapContainer} className="map-container rounded-lg overflow-hidden" style={{ height: '500px' }} />
-
-      {/* Desktop view */}
-      <div className="hidden md:block absolute top-4 left-4 z-10 bg-white p-4 rounded-lg shadow-lg w-full max-w-sm">
-        <p className="text-gray-800 font-medium mb-4">Click on the map or use your location to find your DIGIPIN:</p>
-        <form onSubmit={handleSearch} className="mb-2 flex">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search for a place in India"
-            className="flex-grow px-2 py-1 border rounded-l-lg"
-          />
-          <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded-r-lg">
-            <Search size={20} />
-          </button>
-        </form>
-        <button
-          onClick={handleGeolocation}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center mb-2 w-full"
-        >
-          <MapPin size={20} className="mr-2" />
-          Use My Location
-        </button>
-        <button
-          onClick={toggleMapStyle}
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center mb-2 w-full"
-        >
-          <Layers size={20} className="mr-2" />
-          Satellite View
-        </button>
-        {digipin && (
-          <div className="mt-2 p-2 rounded-lg bg-gray-100">
-            <span className="font-bold mr-2 text-gray-500">DIGIPIN: {digipin}</span>
-            <button
-              onClick={copyDigipin}
-              className={`ml-2 p-1 rounded ${copySuccess ? 'bg-green-500 text-white' : 'bg-gray-500 hover:bg-gray-300'}`}
-              title="Copy DIGIPIN"
-            >
-              <Copy size={16} />
-            </button>
-            {copySuccess && <span className="text-green-500 ml-2">Copied!</span>}
-          </div>
-        )}
+      <div className="flex-grow">
+        <div ref={mapContainer} className="h-full" />
       </div>
     </div>
   );
