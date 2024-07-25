@@ -20,7 +20,7 @@ Before you begin, ensure you have met the following requirements:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/digipin-app.git
+   git clone https://github.com/kutazama/digipin-app.git
    cd digipin-app
    ```
 
