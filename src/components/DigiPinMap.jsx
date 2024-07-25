@@ -21,7 +21,7 @@ export default function DigiPinMap() {
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/kutazama/clz17xsgs00i001r2bydb2v0h',
       center: [lng, lat],
       zoom: zoom
     });
